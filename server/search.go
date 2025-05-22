@@ -17,6 +17,10 @@ func buildSearchQuery(searchReq *v1.SearchRequest) string {
 func (s *Server) Search(ctx context.Context, r *v1.SearchRequest) (*v1.SearchResponse, error) {
 	searchResponse := v1.SearchResponse{}
 
+	if r.Term == "" {
+		return nil, fmt.Errorf("search term cannot be empty")
+	}
+
 	searchQuery := buildSearchQuery(r)
 
 	data, err := s.githubService.Search(ctx, searchQuery)

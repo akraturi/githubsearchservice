@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
@@ -11,6 +10,9 @@ import (
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 )
+
+var term string
+var user string
 
 var clientCmd = &cobra.Command{
 	Use:   "client",
@@ -31,14 +33,19 @@ var clientCmd = &cobra.Command{
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		res, err := client.Search(ctx, &v1.SearchRequest{Term: "kubernetes"})
+		resp, err := client.Search(ctx, &v1.SearchRequest{Term: term, User: &user})
 		if err != nil {
 			log.Fatalf("could not search term: %v", err)
 		}
-		fmt.Println("Response:", res.Results[0])
+
+		for _, result := range resp.GetResults() {
+			log.Println(result)
+		}
 	},
 }
 
 func init() {
+	clientCmd.Flags().StringVarP(&term, "term", "t", "", "term to search")
+	clientCmd.Flags().StringVarP(&user, "user", "u", "", "user to search")
 	rootCmd.AddCommand(clientCmd)
 }
