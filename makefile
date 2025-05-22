@@ -3,4 +3,4 @@ dev-setup:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
 gen: dev-setup
-	protoc --go_out=. --go-grpc_out=. api/v1/github-search.proto
+	protoc --go_out=gen --go-grpc_out=gen api/v1/github-search.proto
