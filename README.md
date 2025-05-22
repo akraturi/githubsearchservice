@@ -27,3 +27,6 @@ message Result {
   string repo = 2;
 }
 ````
+
+### Dev Setup
+- Install Protocol Buffers Compiler
