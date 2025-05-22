@@ -1,31 +1,19 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
-	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
-	"google.golang.org/grpc"
+	"githubsearchservice/server"
 	"log"
-	"net"
 )
-
-type Server struct {
-	v1.UnimplementedGithubSearchServiceServer
-}
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Start the github search gRPC server",
 	Run: func(cmd *cobra.Command, args []string) {
-		lis, err := net.Listen("tcp", ":50051")
-		if err != nil {
-			log.Fatalf("failed to listen: %v", err)
-		}
-		s := grpc.NewServer()
-		v1.RegisterGithubSearchServiceServer(s, Server{})
-
-		log.Println("server listening on :50051")
-		if err := s.Serve(lis); err != nil {
-			log.Fatalf("failed to serve: %v", err)
+		s := server.NewServer()
+		if err := s.Run(); err != nil {
+			log.Fatal(fmt.Sprintf("failed to run server: %v", err))
 		}
 	},
 }

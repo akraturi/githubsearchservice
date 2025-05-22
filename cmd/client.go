@@ -14,7 +14,7 @@ import (
 
 var clientCmd = &cobra.Command{
 	Use:   "client",
-	Short: "Run the gRPC client",
+	Short: "Run the github search gRPC client",
 	Run: func(cmd *cobra.Command, args []string) {
 		conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
