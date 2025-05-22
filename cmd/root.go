@@ -7,7 +7,7 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "githubsearchservice",
-	Short: "github search server and client",
+	Short: "github search grpc server and client",
 }
 
 func Execute() {

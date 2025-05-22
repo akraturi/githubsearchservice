@@ -10,7 +10,7 @@ import (
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
-	Short: "Start the github search gRPC server",
+	Short: "Start the github search grpc server",
 	Run: func(cmd *cobra.Command, args []string) {
 		githubService := githubservice.New()
 

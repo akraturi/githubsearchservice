@@ -11,12 +11,14 @@ import (
 	"google.golang.org/grpc"
 )
 
-var term string
-var user string
+var (
+	term string
+	user string
+)
 
 var clientCmd = &cobra.Command{
 	Use:   "client",
-	Short: "Run the github search gRPC client",
+	Short: "Search for a term using github search api",
 	Run: func(cmd *cobra.Command, args []string) {
 		conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
@@ -35,7 +37,7 @@ var clientCmd = &cobra.Command{
 
 		resp, err := client.Search(ctx, &v1.SearchRequest{Term: term, User: &user})
 		if err != nil {
-			log.Fatalf("could not search term: %v", err)
+			log.Fatalf("error while doing grpc call: %v", err)
 		}
 
 		for _, result := range resp.GetResults() {

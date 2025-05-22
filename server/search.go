@@ -6,14 +6,6 @@ import (
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
 )
 
-func buildSearchQuery(searchReq *v1.SearchRequest) string {
-	query := searchReq.Term
-	if searchReq.GetUser() != "" {
-		query += " user:" + searchReq.GetUser()
-	}
-	return query
-}
-
 func (s *Server) Search(ctx context.Context, r *v1.SearchRequest) (*v1.SearchResponse, error) {
 	searchResponse := v1.SearchResponse{}
 
@@ -21,7 +13,10 @@ func (s *Server) Search(ctx context.Context, r *v1.SearchRequest) (*v1.SearchRes
 		return nil, fmt.Errorf("search term cannot be empty")
 	}
 
-	searchQuery := buildSearchQuery(r)
+	searchQuery := r.GetTerm()
+	if r.GetUser() != "" {
+		searchQuery += " user:" + r.GetUser()
+	}
 
 	data, err := s.githubService.Search(ctx, searchQuery)
 	if err != nil {
