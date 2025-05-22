@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api.v1;
+
+option go_package = "github.com/akraturi/githubsearchservice/pkg/pb/v1";
+
+service GithubSearchService {
+  rpc Search(SearchRequest) returns (SearchResponse);
+}
+
+message SearchRequest {
+  string term = 1;
+  optional string user = 2;
+}
+
+message SearchResponse {
+  repeated Result results = 1;
+}
+
+message Result {
+  string file_url = 1;
+  string repo = 2;
+}
