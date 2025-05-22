@@ -1,0 +1,43 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Output of `go build`
+/bin/
+/build/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Output of `go test` with -coverprofile
+*.coverprofile
+
+# IDE/editor configs
+.vscode/
+.idea/
+*.swp
+
+# Dependency directories (if you vendor)
+vendor/
+
+# Logs
+*.log
+
+# MacOS
+.DS_Store
+
+# Linux
+*~
+
+# Coverage reports
+coverage.out
+
+# Generated protobuf / gRPC files (optional, if not committed)
+# *.pb.go
+# *_grpc.pb.go
