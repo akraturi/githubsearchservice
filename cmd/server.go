@@ -7,7 +7,6 @@ import (
 	"githubsearchservice/server"
 	"githubsearchservice/service/githubservice"
 	"log"
-	"os"
 )
 
 var serverCmd = &cobra.Command{
@@ -18,8 +17,6 @@ var serverCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal("error loading .env file")
 		}
-
-		fmt.Println(os.Getenv("GITHUB_TOKEN"))
 
 		githubService := githubservice.New()
 
