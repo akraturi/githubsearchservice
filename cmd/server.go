@@ -2,16 +2,25 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 	"githubsearchservice/server"
 	"githubsearchservice/service/githubservice"
 	"log"
+	"os"
 )
 
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Start the github search grpc server",
 	Run: func(cmd *cobra.Command, args []string) {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("error loading .env file")
+		}
+
+		fmt.Println(os.Getenv("GITHUB_TOKEN"))
+
 		githubService := githubservice.New()
 
 		s := server.New(githubService)

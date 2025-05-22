@@ -27,7 +27,7 @@ var clientCmd = &cobra.Command{
 		defer func(conn *grpc.ClientConn) {
 			err := conn.Close()
 			if err != nil {
-
+				log.Fatalf("failed to close client connection: %v", err)
 			}
 		}(conn)
 
