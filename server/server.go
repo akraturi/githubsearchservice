@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
+	"githubsearchservice/service/githubservice"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -11,24 +12,27 @@ import (
 
 type Server struct {
 	v1.GithubSearchServiceServer
+	githubService githubservice.GithubService
 }
 
-func NewServer() Server {
-	return Server{}
+func New(githubService githubservice.GithubService) Server {
+	return Server{
+		githubService: githubService,
+	}
 }
 
-func (server *Server) Run() error {
+func (s *Server) Run() error {
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		return errors.New(fmt.Sprintf("failed to listen: %v", err))
 	}
 
-	s := grpc.NewServer()
-	v1.RegisterGithubSearchServiceServer(s, server)
+	server := grpc.NewServer()
+	v1.RegisterGithubSearchServiceServer(server, s)
 
 	log.Println("server listening on :50051")
 
-	if err := s.Serve(lis); err != nil {
+	if err := server.Serve(lis); err != nil {
 		return errors.New(fmt.Sprintf("failed to serve: %v", err))
 	}
 

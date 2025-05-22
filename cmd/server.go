@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"githubsearchservice/server"
+	"githubsearchservice/service/githubservice"
 	"log"
 )
 
@@ -11,7 +12,9 @@ var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Start the github search gRPC server",
 	Run: func(cmd *cobra.Command, args []string) {
-		s := server.NewServer()
+		githubService := githubservice.New()
+
+		s := server.New(githubService)
 		if err := s.Run(); err != nil {
 			log.Fatal(fmt.Sprintf("failed to run server: %v", err))
 		}

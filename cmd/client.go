@@ -28,7 +28,7 @@ var clientCmd = &cobra.Command{
 		}(conn)
 
 		client := v1.NewGithubSearchServiceClient(conn)
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
 		res, err := client.Search(ctx, &v1.SearchRequest{Term: "kubernetes"})
