@@ -30,10 +30,10 @@ message Result {
 
 ## Prerequisites
 ### Linux:
-- Make and Git: `sudo apt-get install git make`
+- Make and Git: `sudo apt-get install git make buf`
    
 ### Mac:
-- Make and Git: `brew install git make`
+- Make and Git: `brew install git make buf`
 
 ## Setup:
 - Clone the repository: `git clone https://github.com/akraturi/githubsearchservice.git`

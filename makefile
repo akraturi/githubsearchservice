@@ -4,7 +4,10 @@ dev-setup:
 	go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.1.6
 
 gen: dev-setup
-	protoc --go_out=gen --go-grpc_out=gen api/v1/github-search.proto
+	protoc --go_out=gen --go-grpc_out=gen proto/search/v1/github_search.proto
 
-golang-lint-run:
+lint:
 	golangci-lint run $(if $(TIMEOUT_MIN),--timeout=$(TIMEOUT_MIN)m)
+
+proto-lint:
+	buf lint

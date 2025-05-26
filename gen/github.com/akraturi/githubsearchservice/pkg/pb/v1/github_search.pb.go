@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: api/v1/github-search.proto
+// source: proto/search/v1/github_search.proto
 
 package v1
 
@@ -31,7 +31,7 @@ type SearchRequest struct {
 
 func (x *SearchRequest) Reset() {
 	*x = SearchRequest{}
-	mi := &file_api_v1_github_search_proto_msgTypes[0]
+	mi := &file_proto_search_v1_github_search_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *SearchRequest) String() string {
 func (*SearchRequest) ProtoMessage() {}
 
 func (x *SearchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_github_search_proto_msgTypes[0]
+	mi := &file_proto_search_v1_github_search_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *SearchRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchRequest.ProtoReflect.Descriptor instead.
 func (*SearchRequest) Descriptor() ([]byte, []int) {
-	return file_api_v1_github_search_proto_rawDescGZIP(), []int{0}
+	return file_proto_search_v1_github_search_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *SearchRequest) GetTerm() string {
@@ -82,7 +82,7 @@ type SearchResponse struct {
 
 func (x *SearchResponse) Reset() {
 	*x = SearchResponse{}
-	mi := &file_api_v1_github_search_proto_msgTypes[1]
+	mi := &file_proto_search_v1_github_search_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +94,7 @@ func (x *SearchResponse) String() string {
 func (*SearchResponse) ProtoMessage() {}
 
 func (x *SearchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_github_search_proto_msgTypes[1]
+	mi := &file_proto_search_v1_github_search_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +107,7 @@ func (x *SearchResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchResponse.ProtoReflect.Descriptor instead.
 func (*SearchResponse) Descriptor() ([]byte, []int) {
-	return file_api_v1_github_search_proto_rawDescGZIP(), []int{1}
+	return file_proto_search_v1_github_search_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *SearchResponse) GetResults() []*Result {
@@ -127,7 +127,7 @@ type Result struct {
 
 func (x *Result) Reset() {
 	*x = Result{}
-	mi := &file_api_v1_github_search_proto_msgTypes[2]
+	mi := &file_proto_search_v1_github_search_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -139,7 +139,7 @@ func (x *Result) String() string {
 func (*Result) ProtoMessage() {}
 
 func (x *Result) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_github_search_proto_msgTypes[2]
+	mi := &file_proto_search_v1_github_search_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -152,7 +152,7 @@ func (x *Result) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Result.ProtoReflect.Descriptor instead.
 func (*Result) Descriptor() ([]byte, []int) {
-	return file_api_v1_github_search_proto_rawDescGZIP(), []int{2}
+	return file_proto_search_v1_github_search_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Result) GetFileUrl() string {
@@ -169,45 +169,45 @@ func (x *Result) GetRepo() string {
 	return ""
 }
 
-var File_api_v1_github_search_proto protoreflect.FileDescriptor
+var File_proto_search_v1_github_search_proto protoreflect.FileDescriptor
 
-const file_api_v1_github_search_proto_rawDesc = "" +
+const file_proto_search_v1_github_search_proto_rawDesc = "" +
 	"\n" +
-	"\x1aapi/v1/github-search.proto\x12\x06api.v1\"E\n" +
+	"#proto/search/v1/github_search.proto\x12\tsearch.v1\"E\n" +
 	"\rSearchRequest\x12\x12\n" +
 	"\x04term\x18\x01 \x01(\tR\x04term\x12\x17\n" +
 	"\x04user\x18\x02 \x01(\tH\x00R\x04user\x88\x01\x01B\a\n" +
-	"\x05_user\":\n" +
-	"\x0eSearchResponse\x12(\n" +
-	"\aresults\x18\x01 \x03(\v2\x0e.api.v1.ResultR\aresults\"7\n" +
+	"\x05_user\"=\n" +
+	"\x0eSearchResponse\x12+\n" +
+	"\aresults\x18\x01 \x03(\v2\x11.search.v1.ResultR\aresults\"7\n" +
 	"\x06Result\x12\x19\n" +
 	"\bfile_url\x18\x01 \x01(\tR\afileUrl\x12\x12\n" +
-	"\x04repo\x18\x02 \x01(\tR\x04repo2N\n" +
-	"\x13GithubSearchService\x127\n" +
-	"\x06Search\x12\x15.api.v1.SearchRequest\x1a\x16.api.v1.SearchResponseB3Z1github.com/akraturi/githubsearchservice/pkg/pb/v1b\x06proto3"
+	"\x04repo\x18\x02 \x01(\tR\x04repo2T\n" +
+	"\x13GithubSearchService\x12=\n" +
+	"\x06Search\x12\x18.search.v1.SearchRequest\x1a\x19.search.v1.SearchResponseB3Z1github.com/akraturi/githubsearchservice/pkg/pb/v1b\x06proto3"
 
 var (
-	file_api_v1_github_search_proto_rawDescOnce sync.Once
-	file_api_v1_github_search_proto_rawDescData []byte
+	file_proto_search_v1_github_search_proto_rawDescOnce sync.Once
+	file_proto_search_v1_github_search_proto_rawDescData []byte
 )
 
-func file_api_v1_github_search_proto_rawDescGZIP() []byte {
-	file_api_v1_github_search_proto_rawDescOnce.Do(func() {
-		file_api_v1_github_search_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_v1_github_search_proto_rawDesc), len(file_api_v1_github_search_proto_rawDesc)))
+func file_proto_search_v1_github_search_proto_rawDescGZIP() []byte {
+	file_proto_search_v1_github_search_proto_rawDescOnce.Do(func() {
+		file_proto_search_v1_github_search_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_search_v1_github_search_proto_rawDesc), len(file_proto_search_v1_github_search_proto_rawDesc)))
 	})
-	return file_api_v1_github_search_proto_rawDescData
+	return file_proto_search_v1_github_search_proto_rawDescData
 }
 
-var file_api_v1_github_search_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
-var file_api_v1_github_search_proto_goTypes = []any{
-	(*SearchRequest)(nil),  // 0: api.v1.SearchRequest
-	(*SearchResponse)(nil), // 1: api.v1.SearchResponse
-	(*Result)(nil),         // 2: api.v1.Result
+var file_proto_search_v1_github_search_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_proto_search_v1_github_search_proto_goTypes = []any{
+	(*SearchRequest)(nil),  // 0: search.v1.SearchRequest
+	(*SearchResponse)(nil), // 1: search.v1.SearchResponse
+	(*Result)(nil),         // 2: search.v1.Result
 }
-var file_api_v1_github_search_proto_depIdxs = []int32{
-	2, // 0: api.v1.SearchResponse.results:type_name -> api.v1.Result
-	0, // 1: api.v1.GithubSearchService.Search:input_type -> api.v1.SearchRequest
-	1, // 2: api.v1.GithubSearchService.Search:output_type -> api.v1.SearchResponse
+var file_proto_search_v1_github_search_proto_depIdxs = []int32{
+	2, // 0: search.v1.SearchResponse.results:type_name -> search.v1.Result
+	0, // 1: search.v1.GithubSearchService.Search:input_type -> search.v1.SearchRequest
+	1, // 2: search.v1.GithubSearchService.Search:output_type -> search.v1.SearchResponse
 	2, // [2:3] is the sub-list for method output_type
 	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -215,27 +215,27 @@ var file_api_v1_github_search_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_api_v1_github_search_proto_init() }
-func file_api_v1_github_search_proto_init() {
-	if File_api_v1_github_search_proto != nil {
+func init() { file_proto_search_v1_github_search_proto_init() }
+func file_proto_search_v1_github_search_proto_init() {
+	if File_proto_search_v1_github_search_proto != nil {
 		return
 	}
-	file_api_v1_github_search_proto_msgTypes[0].OneofWrappers = []any{}
+	file_proto_search_v1_github_search_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_github_search_proto_rawDesc), len(file_api_v1_github_search_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_search_v1_github_search_proto_rawDesc), len(file_proto_search_v1_github_search_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_v1_github_search_proto_goTypes,
-		DependencyIndexes: file_api_v1_github_search_proto_depIdxs,
-		MessageInfos:      file_api_v1_github_search_proto_msgTypes,
+		GoTypes:           file_proto_search_v1_github_search_proto_goTypes,
+		DependencyIndexes: file_proto_search_v1_github_search_proto_depIdxs,
+		MessageInfos:      file_proto_search_v1_github_search_proto_msgTypes,
 	}.Build()
-	File_api_v1_github_search_proto = out.File
-	file_api_v1_github_search_proto_goTypes = nil
-	file_api_v1_github_search_proto_depIdxs = nil
+	File_proto_search_v1_github_search_proto = out.File
+	file_proto_search_v1_github_search_proto_goTypes = nil
+	file_proto_search_v1_github_search_proto_depIdxs = nil
 }

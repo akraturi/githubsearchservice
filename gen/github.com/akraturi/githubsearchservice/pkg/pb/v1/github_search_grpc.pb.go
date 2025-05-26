@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.0
-// source: api/v1/github-search.proto
+// source: proto/search/v1/github_search.proto
 
 package v1
 
@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GithubSearchService_Search_FullMethodName = "/api.v1.GithubSearchService/Search"
+	GithubSearchService_Search_FullMethodName = "/search.v1.GithubSearchService/Search"
 )
 
 // GithubSearchServiceClient is the client API for GithubSearchService service.
@@ -108,7 +108,7 @@ func _GithubSearchService_Search_Handler(srv interface{}, ctx context.Context, d
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var GithubSearchService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.v1.GithubSearchService",
+	ServiceName: "search.v1.GithubSearchService",
 	HandlerType: (*GithubSearchServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -117,5 +117,5 @@ var GithubSearchService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/v1/github-search.proto",
+	Metadata: "proto/search/v1/github_search.proto",
 }
