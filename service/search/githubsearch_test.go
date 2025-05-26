@@ -19,6 +19,9 @@ type githubSearcherTestSuite struct {
 func (s *githubSearcherTestSuite) SetupSuite() {
 	s.githubAPIClient = resty.New().SetBaseURL("https://api.github.com")
 	s.githubSearcher = NewGithubSearcher(s.githubAPIClient)
+}
+
+func (s *githubSearcherTestSuite) SetupTest() {
 	httpmock.ActivateNonDefault(s.githubAPIClient.GetClient())
 }
 

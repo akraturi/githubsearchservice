@@ -11,3 +11,6 @@ lint:
 
 proto-lint:
 	buf lint
+
+test:
+	go test ./...
