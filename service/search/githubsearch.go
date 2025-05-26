@@ -16,13 +16,17 @@ func NewGithubSearcher(githubApiClient *resty.Client) *GithubSearcher {
 	}
 }
 
+type repository struct {
+	FullName string `json:"full_name"`
+}
+
+type item struct {
+	HtmlUrl    string     `json:"html_url"`
+	Repository repository `json:"repository"`
+}
+
 type githubSearchApiResponse struct {
-	Items []struct {
-		HtmlUrl    string `json:"html_url"`
-		Repository struct {
-			FullName string `json:"full_name"`
-		} `json:"repository"`
-	} `json:"items"`
+	Items []item `json:"items"`
 }
 
 func (gs *GithubSearcher) Search(ctx context.Context, query string) ([]Result, error) {
