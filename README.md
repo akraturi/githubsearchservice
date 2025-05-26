@@ -67,7 +67,7 @@ message Result {
 - Github API errors: Ensure environment variable `GITHUB_TOKEN` is set with a valid and active API token
 
 ### Future Enhancements
-- Add test cases
+- Add more test cases
 - Containerize the app to remove deps to avoid env issues
 - Support better secret management
 - Support for pagination
