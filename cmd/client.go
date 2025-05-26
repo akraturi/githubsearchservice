@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
@@ -19,10 +20,10 @@ var (
 var clientCmd = &cobra.Command{
 	Use:   "client",
 	Short: "Search for a term using github search api",
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
-			log.Fatalf("could not connect to server: %v", err)
+			return fmt.Errorf("could not connect to server: %v", err)
 		}
 		defer func(conn *grpc.ClientConn) {
 			err := conn.Close()
@@ -37,12 +38,14 @@ var clientCmd = &cobra.Command{
 
 		resp, err := client.Search(ctx, &v1.SearchRequest{Term: term, User: &user})
 		if err != nil {
-			log.Fatalf("error while doing grpc call: %v", err)
+			return fmt.Errorf("error while doing grpc call: %v", err)
 		}
 
 		for _, result := range resp.GetResults() {
 			log.Println(result)
 		}
+
+		return nil
 	},
 }
 

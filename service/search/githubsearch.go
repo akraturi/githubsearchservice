@@ -4,24 +4,13 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-resty/resty/v2"
-	"os"
-	"time"
 )
 
 type GithubSearcher struct {
 	githubApiClient *resty.Client
 }
 
-func NewGithubSearcher() *GithubSearcher {
-	githubApiClient := resty.New().
-		SetBaseURL("https://api.github.com").
-		SetTimeout(5*time.Second).
-		SetRetryCount(3).
-		AddRetryAfterErrorCondition().
-		SetHeader("Content-Type", "application/json").
-		SetHeader("Authorization",
-			fmt.Sprintf("token %v", os.Getenv("GITHUB_TOKEN")))
-
+func NewGithubSearcher(githubApiClient *resty.Client) *GithubSearcher {
 	return &GithubSearcher{
 		githubApiClient: githubApiClient,
 	}
