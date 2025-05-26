@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
-	"githubsearchservice/service/githubservice"
+	"githubsearchservice/service/search"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -11,12 +11,12 @@ import (
 
 type Server struct {
 	v1.GithubSearchServiceServer
-	githubService githubservice.GithubService
+	searcher search.Searcher
 }
 
-func New(githubService githubservice.GithubService) Server {
+func New(searcher search.Searcher) Server {
 	return Server{
-		githubService: githubService,
+		searcher: searcher,
 	}
 }
 

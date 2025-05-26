@@ -1,4 +1,4 @@
-package githubservice
+package search
 
 import (
 	"context"
@@ -8,11 +8,11 @@ import (
 	"time"
 )
 
-type GithubService struct {
+type GithubSearcher struct {
 	githubApiClient *resty.Client
 }
 
-func New() GithubService {
+func NewGithubSearcher() *GithubSearcher {
 	githubApiClient := resty.New().
 		SetBaseURL("https://api.github.com").
 		SetTimeout(5*time.Second).
@@ -22,12 +22,12 @@ func New() GithubService {
 		SetHeader("Authorization",
 			fmt.Sprintf("token %v", os.Getenv("GITHUB_TOKEN")))
 
-	return GithubService{
+	return &GithubSearcher{
 		githubApiClient: githubApiClient,
 	}
 }
 
-type GithubSearchApiResponse struct {
+type githubSearchApiResponse struct {
 	Items []struct {
 		HtmlUrl    string `json:"html_url"`
 		Repository struct {
@@ -36,26 +36,34 @@ type GithubSearchApiResponse struct {
 	} `json:"items"`
 }
 
-func (g *GithubService) Search(ctx context.Context, query string) (GithubSearchApiResponse, error) {
-	searchResp := GithubSearchApiResponse{}
+func (gs *GithubSearcher) Search(ctx context.Context, query string) ([]Result, error) {
+	var searchResp githubSearchApiResponse
 
-	resp, err := g.githubApiClient.R().
+	resp, err := gs.githubApiClient.R().
 		SetContext(ctx).
 		SetQueryParam("q", query).
 		SetResult(&searchResp).
 		Get("search/code")
 
 	if err != nil {
-		return searchResp, fmt.Errorf("api call to github failed: %v", err)
+		return nil, fmt.Errorf("api call to github failed: %v", err)
 	}
 
 	if resp == nil {
-		return searchResp, fmt.Errorf("github search api returned empty response")
+		return nil, fmt.Errorf("github search api returned empty response")
 	}
 
 	if resp.IsError() {
-		return searchResp, fmt.Errorf("api call to github failed with status: %v", resp.Status())
+		return nil, fmt.Errorf("api call to github failed with status: %v", resp.Status())
 	}
 
-	return searchResp, nil
+	var searchResults []Result
+	for _, item := range searchResp.Items {
+		searchResults = append(searchResults, Result{
+			FileUrl: item.HtmlUrl,
+			Repo:    item.Repository.FullName,
+		})
+	}
+
+	return searchResults, nil
 }

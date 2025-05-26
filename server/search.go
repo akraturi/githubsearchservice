@@ -18,16 +18,16 @@ func (s *Server) Search(ctx context.Context, r *v1.SearchRequest) (*v1.SearchRes
 		searchQuery += " user:" + r.GetUser()
 	}
 
-	data, err := s.githubService.Search(ctx, searchQuery)
+	data, err := s.searcher.Search(ctx, searchQuery)
 	if err != nil {
 		return nil, fmt.Errorf("failed to search term: %v", err)
 	}
 
 	var results []*v1.Result
-	for _, item := range data.Items {
+	for _, item := range data {
 		results = append(results, &v1.Result{
-			FileUrl: item.HtmlUrl,
-			Repo:    item.Repository.FullName,
+			FileUrl: item.FileUrl,
+			Repo:    item.Repo,
 		})
 	}
 	searchResponse.Results = results

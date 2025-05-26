@@ -5,7 +5,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 	"githubsearchservice/server"
-	"githubsearchservice/service/githubservice"
+	"githubsearchservice/service/search"
 	"log"
 )
 
@@ -18,9 +18,9 @@ var serverCmd = &cobra.Command{
 			log.Fatal("error loading .env file")
 		}
 
-		githubService := githubservice.New()
+		githubSearcher := search.NewGithubSearcher()
 
-		s := server.New(githubService)
+		s := server.New(githubSearcher)
 		if err := s.Run(); err != nil {
 			log.Fatal(fmt.Sprintf("failed to run server: %v", err))
 		}
