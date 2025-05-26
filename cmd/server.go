@@ -2,26 +2,28 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/go-resty/resty/v2"
-	"github.com/joho/godotenv"
-	"github.com/spf13/cobra"
 	"githubsearchservice/server"
 	"githubsearchservice/service/search"
 	"log"
 	"os"
 	"time"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/joho/godotenv"
+	"github.com/spf13/cobra"
 )
 
+//nolint:gochecknoglobals //spf13/cobra pattern
 var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Start the github search grpc server",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(_ *cobra.Command, _ []string) error {
 		err := godotenv.Load()
 		if err != nil {
 			log.Fatal("error loading .env file")
 		}
 
-		githubApiClient := resty.New().
+		githubAPIClient := resty.New().
 			SetBaseURL("https://api.github.com").
 			SetTimeout(5*time.Second).
 			SetRetryCount(3).
@@ -29,7 +31,7 @@ var serverCmd = &cobra.Command{
 			SetHeader("Content-Type", "application/json").
 			SetHeader("Authorization",
 				fmt.Sprintf("token %v", os.Getenv("GITHUB_TOKEN")))
-		githubSearcher := search.NewGithubSearcher(githubApiClient)
+		githubSearcher := search.NewGithubSearcher(githubAPIClient)
 
 		s := server.New(githubSearcher)
 		if err := s.Run(); err != nil {
@@ -40,6 +42,7 @@ var serverCmd = &cobra.Command{
 	},
 }
 
+//nolint:gochecknoinits //spf13/cobra follows init pattern
 func init() {
 	rootCmd.AddCommand(serverCmd)
 }

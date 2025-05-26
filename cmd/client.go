@@ -4,23 +4,24 @@ import (
 	"context"
 	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
-	"google.golang.org/grpc/credentials/insecure"
 	"log"
 	"time"
 
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
-	term string
-	user string
+	term string //nolint:gochecknoglobals //spf13/cobra pattern
+	user string //nolint:gochecknoglobals //spf13/cobra pattern
 )
 
+//nolint:gochecknoglobals //spf13/cobra pattern
 var clientCmd = &cobra.Command{
 	Use:   "client",
 	Short: "Search for a term using github search api",
-	RunE: func(cmd *cobra.Command, args []string) error {
+	RunE: func(_ *cobra.Command, _ []string) error {
 		conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 		if err != nil {
 			return fmt.Errorf("could not connect to server: %v", err)
@@ -49,6 +50,7 @@ var clientCmd = &cobra.Command{
 	},
 }
 
+//nolint:gochecknoinits //spf13/cobra follows init pattern
 func init() {
 	clientCmd.Flags().StringVarP(&term, "term", "t", "", "term to search")
 	clientCmd.Flags().StringVarP(&user, "user", "u", "", "user to search")

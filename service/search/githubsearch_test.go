@@ -2,24 +2,24 @@ package search
 
 import (
 	"context"
-	"fmt"
+	"net/http"
+	"testing"
+
 	"github.com/go-resty/resty/v2"
 	"github.com/jarcoal/httpmock"
 	"github.com/stretchr/testify/suite"
-	"net/http"
-	"testing"
 )
 
 type githubSearcherTestSuite struct {
 	suite.Suite
 	githubSearcher  *GithubSearcher
-	githubApiClient *resty.Client
+	githubAPIClient *resty.Client
 }
 
 func (s *githubSearcherTestSuite) SetupSuite() {
-	s.githubApiClient = resty.New().SetBaseURL("https://api.github.com")
-	s.githubSearcher = NewGithubSearcher(s.githubApiClient)
-	httpmock.ActivateNonDefault(s.githubApiClient.GetClient())
+	s.githubAPIClient = resty.New().SetBaseURL("https://api.github.com")
+	s.githubSearcher = NewGithubSearcher(s.githubAPIClient)
+	httpmock.ActivateNonDefault(s.githubAPIClient.GetClient())
 }
 
 func (s *githubSearcherTestSuite) TearDownTest() {
@@ -27,16 +27,16 @@ func (s *githubSearcherTestSuite) TearDownTest() {
 }
 
 func (s *githubSearcherTestSuite) TestSearch_Success() {
-	expectedGithubApiResponse := githubSearchApiResponse{
+	expectedGithubAPIResponse := githubSearchAPIResponse{
 		Items: []item{
 			{
-				HtmlUrl: "https://github.com/user/repo1/blob/master/file1.go",
+				HTMLURL: "https://github.com/user/repo1/blob/master/file1.go",
 				Repository: repository{
 					FullName: "user/repo1",
 				},
 			},
 			{
-				HtmlUrl: "https://github.com/user/repo2/blob/master/file2.go",
+				HTMLURL: "https://github.com/user/repo2/blob/master/file2.go",
 				Repository: repository{
 					FullName: "user/repo2",
 				},
@@ -45,21 +45,21 @@ func (s *githubSearcherTestSuite) TestSearch_Success() {
 	}
 
 	expectedResult := []Result{
-		{FileUrl: "https://github.com/user/repo1/blob/master/file1.go", Repo: "user/repo1"},
-		{FileUrl: "https://github.com/user/repo2/blob/master/file2.go", Repo: "user/repo2"},
+		{FileURL: "https://github.com/user/repo1/blob/master/file1.go", Repo: "user/repo1"},
+		{FileURL: "https://github.com/user/repo2/blob/master/file2.go", Repo: "user/repo2"},
 	}
 
-	mockResponder, err := httpmock.NewJsonResponder(200, expectedGithubApiResponse)
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://api.github.com/search/code"),
+	mockResponder, _ := httpmock.NewJsonResponder(200, expectedGithubAPIResponse)
+	httpmock.RegisterResponder("GET", "https://api.github.com/search/code",
 		mockResponder)
 	results, err := s.githubSearcher.Search(context.Background(), "test")
 
 	s.Require().NoError(err)
-	s.Require().Equal(len(expectedResult), len(results))
+	s.Require().Len(results, len(expectedResult))
 
 	for i, result := range results {
-		s.Require().Equal(result.FileUrl, expectedGithubApiResponse.Items[i].HtmlUrl)
-		s.Require().Equal(result.Repo, expectedGithubApiResponse.Items[i].Repository.FullName)
+		s.Require().Equal(result.FileURL, expectedGithubAPIResponse.Items[i].HTMLURL)
+		s.Require().Equal(result.Repo, expectedGithubAPIResponse.Items[i].Repository.FullName)
 	}
 }
 
@@ -70,7 +70,7 @@ func (s *githubSearcherTestSuite) TestSearch_Failure_On_ApiFailure() {
 		ContentLength: -1,
 	})
 
-	httpmock.RegisterResponder("GET", fmt.Sprintf("https://api.github.com/search/code"),
+	httpmock.RegisterResponder("GET", "https://api.github.com/search/code",
 		mockResponder)
 	_, err := s.githubSearcher.Search(context.Background(), "test")
 

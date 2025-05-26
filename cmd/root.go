@@ -1,10 +1,12 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"log"
+
+	"github.com/spf13/cobra"
 )
 
+//nolint:gochecknoglobals //spf13/cobra pattern
 var rootCmd = &cobra.Command{
 	Use:   "githubsearchservice",
 	Short: "github search grpc server and client",

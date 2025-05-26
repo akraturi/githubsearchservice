@@ -3,16 +3,17 @@ package search
 import (
 	"context"
 	"fmt"
+
 	"github.com/go-resty/resty/v2"
 )
 
 type GithubSearcher struct {
-	githubApiClient *resty.Client
+	githubAPIClient *resty.Client
 }
 
-func NewGithubSearcher(githubApiClient *resty.Client) *GithubSearcher {
+func NewGithubSearcher(githubAPIClient *resty.Client) *GithubSearcher {
 	return &GithubSearcher{
-		githubApiClient: githubApiClient,
+		githubAPIClient: githubAPIClient,
 	}
 }
 
@@ -21,18 +22,18 @@ type repository struct {
 }
 
 type item struct {
-	HtmlUrl    string     `json:"html_url"`
+	HTMLURL    string     `json:"html_url"`
 	Repository repository `json:"repository"`
 }
 
-type githubSearchApiResponse struct {
+type githubSearchAPIResponse struct {
 	Items []item `json:"items"`
 }
 
 func (gs *GithubSearcher) Search(ctx context.Context, query string) ([]Result, error) {
-	var searchResp githubSearchApiResponse
+	var searchResp githubSearchAPIResponse
 
-	resp, err := gs.githubApiClient.R().
+	resp, err := gs.githubAPIClient.R().
 		SetContext(ctx).
 		SetQueryParam("q", query).
 		SetResult(&searchResp).
@@ -53,7 +54,7 @@ func (gs *GithubSearcher) Search(ctx context.Context, query string) ([]Result, e
 	var searchResults []Result
 	for _, item := range searchResp.Items {
 		searchResults = append(searchResults, Result{
-			FileUrl: item.HtmlUrl,
+			FileURL: item.HTMLURL,
 			Repo:    item.Repository.FullName,
 		})
 	}

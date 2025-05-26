@@ -4,9 +4,10 @@ import (
 	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
 	"githubsearchservice/service/search"
-	"google.golang.org/grpc"
 	"log"
 	"net"
+
+	"google.golang.org/grpc"
 )
 
 type Server struct {
@@ -21,7 +22,7 @@ func New(searcher search.Searcher) Server {
 }
 
 func (s *Server) Run() error {
-	lis, err := net.Listen("tcp", ":50051")
+	lis, err := net.Listen("tcp", "localhost:50051")
 	if err != nil {
 		return fmt.Errorf("failed to listen: %v", err)
 	}
@@ -29,7 +30,7 @@ func (s *Server) Run() error {
 	server := grpc.NewServer()
 	v1.RegisterGithubSearchServiceServer(server, s)
 
-	log.Println("server listening on :50051")
+	log.Println("server listening on localhost:50051")
 
 	if err := server.Serve(lis); err != nil {
 		return fmt.Errorf("failed to serve: %v", err)

@@ -7,6 +7,6 @@ type Searcher interface {
 }
 
 type Result struct {
-	FileUrl string
+	FileURL string
 	Repo    string
 }

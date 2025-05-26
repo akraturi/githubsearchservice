@@ -26,7 +26,7 @@ func (s *Server) Search(ctx context.Context, r *v1.SearchRequest) (*v1.SearchRes
 	var results []*v1.Result
 	for _, item := range data {
 		results = append(results, &v1.Result{
-			FileUrl: item.FileUrl,
+			FileUrl: item.FileURL,
 			Repo:    item.Repo,
 		})
 	}
