@@ -3,6 +3,7 @@ package search
 import (
 	"context"
 	"fmt"
+	"githubsearchservice/pkg"
 
 	"github.com/go-resty/resty/v2"
 )
@@ -33,7 +34,11 @@ type githubSearchAPIResponse struct {
 func (gs *GithubSearcher) Search(ctx context.Context, query string) ([]Result, error) {
 	var searchResp githubSearchAPIResponse
 
+	githubAPIToken := pkg.GetGithubAPIToken(ctx)
+
 	resp, err := gs.githubAPIClient.R().
+		SetHeader("Authorization",
+			fmt.Sprintf("token %v", githubAPIToken)).
 		SetContext(ctx).
 		SetQueryParam("q", query).
 		SetResult(&searchResp).

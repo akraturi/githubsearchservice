@@ -5,7 +5,6 @@ import (
 	"githubsearchservice/server"
 	"githubsearchservice/service/search"
 	"log"
-	"os"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -28,9 +27,7 @@ var serverCmd = &cobra.Command{
 			SetTimeout(5*time.Second).
 			SetRetryCount(3).
 			AddRetryAfterErrorCondition().
-			SetHeader("Content-Type", "application/json").
-			SetHeader("Authorization",
-				fmt.Sprintf("token %v", os.Getenv("GITHUB_TOKEN")))
+			SetHeader("Content-Type", "application/json")
 		githubSearcher := search.NewGithubSearcher(githubAPIClient)
 
 		s := server.New(githubSearcher)

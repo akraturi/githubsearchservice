@@ -9,6 +9,9 @@ gen: dev-setup
 lint:
 	golangci-lint run $(if $(TIMEOUT_MIN),--timeout=$(TIMEOUT_MIN)m)
 
+lint-fix:
+	golangci-lint run --fix
+
 proto-lint:
 	buf lint
 

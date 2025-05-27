@@ -7,14 +7,17 @@ import (
 	"log"
 	"time"
 
+	"google.golang.org/grpc/metadata"
+
 	"github.com/spf13/cobra"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
 var (
-	term string //nolint:gochecknoglobals //spf13/cobra pattern
-	user string //nolint:gochecknoglobals //spf13/cobra pattern
+	term           string //nolint:gochecknoglobals //spf13/cobra pattern
+	user           string //nolint:gochecknoglobals //spf13/cobra pattern
+	githubAPIToken string //nolint:gochecknoglobals //spf13/cobra pattern
 )
 
 //nolint:gochecknoglobals //spf13/cobra pattern
@@ -34,10 +37,15 @@ var clientCmd = &cobra.Command{
 		}(conn)
 
 		client := v1.NewGithubSearchServiceClient(conn)
+
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
 
-		resp, err := client.Search(ctx, &v1.SearchRequest{Term: term, User: &user})
+		ctxWithMetaData := metadata.NewOutgoingContext(ctx, map[string][]string{
+			"github_api_token": {githubAPIToken},
+		})
+
+		resp, err := client.Search(ctxWithMetaData, &v1.SearchRequest{Term: term, User: &user})
 		if err != nil {
 			return fmt.Errorf("error while doing grpc call: %v", err)
 		}
@@ -54,5 +62,7 @@ var clientCmd = &cobra.Command{
 func init() {
 	clientCmd.Flags().StringVarP(&term, "term", "t", "", "term to search")
 	clientCmd.Flags().StringVarP(&user, "user", "u", "", "user to search")
+	clientCmd.Flags().StringVarP(&githubAPIToken, "github_api_token", "a", "",
+		"github api token")
 	rootCmd.AddCommand(clientCmd)
 }
