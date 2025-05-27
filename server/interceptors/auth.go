@@ -19,7 +19,7 @@ func AuthInterceptor() grpc.UnaryServerInterceptor {
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
 	) (interface{}, error) {
-		log.Println("authorize request: ", info.FullMethod)
+		log.Println("incoming request: ", info.FullMethod, req)
 
 		md, ok := metadata.FromIncomingContext(ctx)
 		if !ok {
