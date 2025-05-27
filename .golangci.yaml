@@ -1,0 +1,50 @@
+version: "2"
+linters:
+  enable:
+    - asasalint
+    - bodyclose
+    - dupl
+    - durationcheck
+    - forcetypeassert
+    - gochecknoglobals
+    - gochecknoinits
+    - goconst
+    - gosec
+    - lll
+    - misspell
+    - nestif
+    - nilerr
+    - nilnil
+    - nolintlint
+    - nonamedreturns
+    - predeclared
+    - revive
+    - testifylint
+    - unconvert
+    - zerologlint
+  settings:
+    gosec:
+      excludes:
+        - G401
+        - G505
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

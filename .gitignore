@@ -37,7 +37,3 @@ vendor/
 
 # Coverage reports
 coverage.out
-
-# Generated protobuf / gRPC files (optional, if not committed)
-# *.pb.go
-# *_grpc.pb.go
