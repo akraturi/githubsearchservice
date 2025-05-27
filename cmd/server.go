@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"githubsearchservice/server"
 	"githubsearchservice/service/search"
-	"log"
 	"time"
 
 	"github.com/go-resty/resty/v2"
-	"github.com/joho/godotenv"
 	"github.com/spf13/cobra"
 )
 
@@ -17,11 +15,6 @@ var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "Start the github search grpc server",
 	RunE: func(_ *cobra.Command, _ []string) error {
-		err := godotenv.Load()
-		if err != nil {
-			log.Fatal("error loading .env file")
-		}
-
 		githubAPIClient := resty.New().
 			SetBaseURL("https://api.github.com").
 			SetTimeout(5*time.Second).
