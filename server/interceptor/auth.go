@@ -1,4 +1,4 @@
-package interceptors
+package interceptor
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func AuthInterceptor() grpc.UnaryServerInterceptor {
+func Auth() grpc.UnaryServerInterceptor {
 	return func(
 		ctx context.Context,
 		req interface{},

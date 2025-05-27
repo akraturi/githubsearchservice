@@ -3,7 +3,7 @@ package server
 import (
 	"fmt"
 	v1 "githubsearchservice/gen/github.com/akraturi/githubsearchservice/pkg/pb/v1"
-	"githubsearchservice/server/interceptors"
+	"githubsearchservice/server/interceptor"
 	"githubsearchservice/service/search"
 	"log"
 	"net"
@@ -29,7 +29,7 @@ func (s *Server) Run() error {
 	}
 
 	server := grpc.NewServer(
-		grpc.UnaryInterceptor(interceptors.AuthInterceptor()),
+		grpc.UnaryInterceptor(interceptor.Auth()),
 	)
 	v1.RegisterGithubSearchServiceServer(server, s)
 
